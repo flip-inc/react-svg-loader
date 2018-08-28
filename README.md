@@ -1,46 +1,93 @@
 # react-svg-loader
 
-[![Backers on Open Collective](https://opencollective.com/react-svg-loader/backers/badge.svg)](#backers) [![Sponsors on Open Collective](https://opencollective.com/react-svg-loader/sponsors/badge.svg)](#sponsors) [![Greenkeeper badge](https://badges.greenkeeper.io/boopathi/react-svg-loader.svg)](https://greenkeeper.io/) [![Build Status](https://travis-ci.org/boopathi/react-svg-loader.svg?branch=master)](https://travis-ci.org/boopathi/react-svg-loader) [![npm version](https://badge.fury.io/js/react-svg-loader.svg)](https://badge.fury.io/js/react-svg-loader) [![Code Climate](https://codeclimate.com/github/boopathi/react-svg-loader/badges/gpa.svg)](https://codeclimate.com/github/boopathi/react-svg-loader) [![Test Coverage](https://codeclimate.com/github/boopathi/react-svg-loader/badges/coverage.svg)](https://codeclimate.com/github/boopathi/react-svg-loader/coverage)
+## Install
 
-## Packages
+```sh
+npm i react-svg-loader --save-dev
+```
 
-* [babel-plugin-react-svg](/packages/babel-plugin-react-svg)
-* [react-svg-core](/packages/react-svg-core)
-* [react-svg-loader](/packages/react-svg-loader)
-* [react-svg-loader-cli](/packages/react-svg-loader-cli)
-* [rollup-plugin-react-svg](/packages/rollup-plugin-react-svg)
+or
 
-## Versions
+```sh
+yarn add react-svg-loader --dev
+```
 
-### Current
+## Usage
 
-VERSION: `2.x` (master)
+```js
+// without webpack loader config
+import Image1 from 'react-svg-loader!./image1.svg';
 
-Refer [CHANGELOG](CHANGELOG.md)
+// or if you're passing all .svg files via react-svg-loader,
+import Image2 from './image1.svg';
 
-### v1.x
+// and use it like any other React Component
+<Image1 width={50} height={50}/>
+<Image2 width={50} height={50}/>
+```
 
-[branch=v1](https://github.com/boopathi/react-svg-loader/tree/v1)
+### Loader output
 
-### v0.1.x
+By default the loader outputs ES2015 code (with JSX compiled to JavaScript using babel-preset-react). You can combine it with [babel-loader](https://github.com/babel/babel-loader) + [babel-preset-env](https://github.com/babel/babel-preset-env) to compile it down to your target.
 
-[branch=v0.1](https://github.com/boopathi/react-svg-loader/tree/v0.1)
+```js
+// In your webpack config
+{
+  test: /\.svg$/,
+  use: [
+    {
+      loader: "babel-loader"
+    },
+    {
+      loader: "react-svg-loader",
+      options: {
+        jsx: true // true outputs JSX tags
+      }
+    }
+  ]
+}
+```
 
-## Contrubitors
+### SVGO options
 
-This project exists thanks to all the people who contribute.
+```js
+{
+  test: /\.svg$/,
+  use: [
+    "babel-loader",
+    {
+      loader: "react-svg-loader",
+      options: {
+        svgo: {
+          plugins: [
+            { removeTitle: false }
+          ],
+          floatPrecision: 2
+        }
+      }
+    }
+  ]
+}
+```
 
-<a href="graphs/contributors"><img src="https://opencollective.com/react-svg-loader/contributors.svg?width=890&button=false" /></a>
+## Internals
 
-## Backers
+<p align="center">
+Input SVG
+</p>
+<p align="center">↓</p>
+<p align="center">
+SVG Optimize using <a href="https://github.com/svg/svgo">SVGO</a>
+</p>
+<p align="center">↓</p>
+<p align="center">
+Babel Transform with <code>preset=react</code> and <a href="https://github.com/boopathi/react-svg-loader/tree/master/packages/babel-plugin-react-svg"><code>plugin=svgToComponent</code></a>
+</p>
 
-Thank you to all our backers! 🙏 [[Become a backer](https://opencollective.com/react-svg-loader)]
+## Assumptions and Other gotchas
 
-<a href="https://opencollective.com/react-svg-loader#backers" target="_blank"><img src="https://opencollective.com/react-svg-loader/backers.svg?width=890"></a>
-
-## Sponsors
-
-Support this project by becoming a sponsor. Your logo will show up here with a link to your website. [[Become a sponsor](https://opencollective.com/react-svg-loader#sponsor)]
++ Root element is always `<svg>`
++ SVG is optimized using SVGO
 
 ## LICENSE
 

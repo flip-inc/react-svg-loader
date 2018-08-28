@@ -7,7 +7,7 @@ exports.default = _default;
 
 var _loaderUtils = _interopRequireDefault(require("loader-utils"));
 
-var _reactSvgCore = require("react-svg-core");
+var _reactSvgCore = require("./react-svg-core");
 
 function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
 
@@ -18,7 +18,5 @@ function _default(content) {
     jsx: loaderOpts.jsx
   })).then(function (result) {
     return cb(null, result.code);
-  }).catch(function (err) {
-    return cb(err);
   });
 }

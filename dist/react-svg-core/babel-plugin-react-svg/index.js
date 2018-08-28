@@ -87,7 +87,7 @@ function _default(babel) {
   // export default (props) => ${input_svg_node}
 
   var getExport = function getExport(svg) {
-    return t.exportDefaultDeclaration(t.arrowFunctionExpression([t.objectPattern([t.objectProperty(t.identifier("styles"), t.assignmentPattern(t.identifier("styles"), t.objectExpression([])), false, true), t.restProperty ? t.restProperty(t.identifier("props")) : t.restElement(t.identifier("props"))])], svg));
+    return t.exportDefaultDeclaration(t.arrowFunctionExpression([t.objectPattern([t.objectProperty(t.identifier("styles"), t.assignmentPattern(t.identifier("styles"), t.objectExpression([])), false, true), t.restElement(t.identifier("props"))])], svg));
   }; // converts
   // <svg>
   // to

@@ -1,8 +1,8 @@
 // @flow
 
 import Svgo from "svgo";
-import { transform as babelTransform } from "babel-core";
-import plugin from "babel-plugin-react-svg";
+import { transform as babelTransform } from "@babel/core";
+import plugin from "./babel-plugin-react-svg";
 
 import { validateAndFix } from "./svgo";
 
@@ -21,10 +21,10 @@ export function transform({
   return content =>
     babelTransform(content, {
       babelrc: false,
-      presets: [jsx ? void 0 : "react"].filter(Boolean),
+      presets: [jsx ? void 0 : "@babel/preset-react"].filter(Boolean),
       plugins: [
-        require.resolve("babel-plugin-syntax-jsx"),
-        require.resolve("babel-plugin-transform-object-rest-spread"),
+        "@babel/plugin-syntax-jsx",
+        "@babel/plugin-proposal-object-rest-spread",
         plugin
       ]
     });

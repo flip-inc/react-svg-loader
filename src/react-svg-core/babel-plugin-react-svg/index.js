@@ -2,7 +2,7 @@
 
 import cssToObj from "./css-to-obj";
 import { hyphenToCamel, namespaceToCamel } from "./camelize";
-import type BabelCore from "babel-core";
+import type BabelCore from "@babel/core";
 
 export default function(babel: BabelCore) {
   const t = babel.types;
@@ -109,9 +109,7 @@ export default function(babel: BabelCore) {
               false,
               true
             ),
-            t.restProperty
-              ? t.restProperty(t.identifier("props"))
-              : t.restElement(t.identifier("props"))
+            t.restElement(t.identifier("props"))
           ])
         ],
         svg

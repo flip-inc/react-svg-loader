@@ -8,9 +8,9 @@ exports.transform = transform;
 
 var _svgo = _interopRequireDefault(require("svgo"));
 
-var _babelCore = require("babel-core");
+var _core = require("@babel/core");
 
-var _babelPluginReactSvg = _interopRequireDefault(require("babel-plugin-react-svg"));
+var _babelPluginReactSvg = _interopRequireDefault(require("./babel-plugin-react-svg"));
 
 var _svgo2 = require("./svgo");
 
@@ -35,10 +35,10 @@ function transform() {
       jsx = _ref$jsx === void 0 ? false : _ref$jsx;
 
   return function (content) {
-    return (0, _babelCore.transform)(content, {
+    return (0, _core.transform)(content, {
       babelrc: false,
-      presets: [jsx ? void 0 : "react"].filter(Boolean),
-      plugins: [require.resolve("babel-plugin-syntax-jsx"), require.resolve("babel-plugin-transform-object-rest-spread"), _babelPluginReactSvg.default]
+      presets: [jsx ? void 0 : "@babel/preset-react"].filter(Boolean),
+      plugins: ["@babel/plugin-syntax-jsx", "@babel/plugin-proposal-object-rest-spread", _babelPluginReactSvg.default]
     });
   };
 }
