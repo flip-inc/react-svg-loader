@@ -12,22 +12,20 @@ var _camelize = require("./camelize");
 function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
 
 function _default(babel) {
-  var t = babel.types;
+  const t = babel.types;
 
-  var createClass = function createClass(className) {
-    return t.logicalExpression("||", t.memberExpression(
-    /* object   = */
-    t.identifier("styles"),
-    /* property = */
-    t.stringLiteral(className),
-    /* computed = */
-    true), t.stringLiteral(className));
-  };
+  const createClass = className => t.logicalExpression("||", t.memberExpression(
+  /* object   = */
+  t.identifier("styles"),
+  /* property = */
+  t.stringLiteral(className),
+  /* computed = */
+  true), t.stringLiteral(className));
 
-  var attrVisitor = {
+  const attrVisitor = {
     JSXAttribute(path) {
-      var name = path.get("name");
-      var value = path.get("value");
+      const name = path.get("name");
+      const value = path.get("value");
 
       if (name.isJSXNamespacedName()) {
         // converts
@@ -46,12 +44,12 @@ function _default(babel) {
           // to
           // className={(styles["foo"] || "foo") + " " + (styles["bar"] || "bar")}
 
-          var classes = value.node.value.split(/\s/);
+          let classes = value.node.value.split(/\s/);
 
           if (classes.length > 0) {
-            var expr = createClass(classes[0]);
+            let expr = createClass(classes[0]);
 
-            for (var i = 1; i < classes.length; i++) {
+            for (let i = 1; i < classes.length; i++) {
               expr = t.binaryExpression("+", // (props.styles["foo"] || "foo") + " "
               t.binaryExpression("+", expr, t.stringLiteral(" ")), // (props.styles["bar"] || "bar")
               createClass(classes[i]));
@@ -66,10 +64,8 @@ function _default(babel) {
 
 
         if (name.node.name === "style") {
-          var csso = (0, _cssToObj.default)(value.node.value);
-          var properties = Object.keys(csso).map(function (prop) {
-            return t.objectProperty(t.identifier((0, _camelize.hyphenToCamel)(prop)), t.stringLiteral(csso[prop]));
-          });
+          let csso = (0, _cssToObj.default)(value.node.value);
+          let properties = Object.keys(csso).map(prop => t.objectProperty(t.identifier((0, _camelize.hyphenToCamel)(prop)), t.stringLiteral(csso[prop])));
           value.replaceWith(t.jSXExpressionContainer(t.objectExpression(properties)));
         } // converts
         // <svg stroke-width="5" data-x="0" aria-label="foo">
@@ -86,7 +82,7 @@ function _default(babel) {
   }; // returns
   // export default (props) => ${input_svg_node}
 
-  var getExport = function getExport(svg) {
+  const getExport = function (svg) {
     return t.exportDefaultDeclaration(t.arrowFunctionExpression([t.objectPattern([t.objectProperty(t.identifier("styles"), t.assignmentPattern(t.identifier("styles"), t.objectExpression([])), false, true), t.restElement(t.identifier("props"))])], svg));
   }; // converts
   // <svg>
@@ -95,7 +91,7 @@ function _default(babel) {
   // after passing through attributes visitors
 
 
-  var svgVisitor = {
+  const svgVisitor = {
     JSXOpeningElement(path) {
       if (path.node.name.name.toLowerCase() === "svg") {
         // add spread props
@@ -110,7 +106,7 @@ function _default(babel) {
   // export default props => <svg {...props}/>;
   // after passing through other visitors
 
-  var svgExpressionVisitor = {
+  const svgExpressionVisitor = {
     ExpressionStatement(path) {
       if (!path.get("expression").isJSXElement()) return;
       if (path.get("expression.openingElement.name").node.name !== "svg") return;
@@ -118,7 +114,7 @@ function _default(babel) {
     }
 
   };
-  var programVisitor = {
+  const programVisitor = {
     Program(path) {
       // add import react statement
       path.node.body.unshift(t.importDeclaration([t.importDefaultSpecifier(t.identifier("React"))], t.stringLiteral("react")));

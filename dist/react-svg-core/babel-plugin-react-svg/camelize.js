@@ -7,9 +7,7 @@ exports.hyphenToCamel = hyphenToCamel;
 exports.namespaceToCamel = namespaceToCamel;
 
 function hyphenToCamel(name) {
-  return name.replace(/-([a-z])/g, function (g) {
-    return g[1].toUpperCase();
-  });
+  return name.replace(/-([a-z])/g, g => g[1].toUpperCase());
 }
 
 function namespaceToCamel(namespace, name) {
