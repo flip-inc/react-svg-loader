@@ -31,7 +31,7 @@
     "@babel/preset-react": "^7.0.0",
     "loader-utils": "^1.1.0",
     "lodash.isplainobject": "^4.0.6",
-    "svgo": "^1.0.5"
+    "svgo": "^1.1.1"
   },
   "devDependencies": {
     "@babel/cli": "^7.0.0",
